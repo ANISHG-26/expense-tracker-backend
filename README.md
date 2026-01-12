@@ -34,10 +34,24 @@ The API runs on http://localhost:3000 by default.
 
 - Enabled for all origins in the POC.
 
-## Docker
+## Docker (shared)
 
-- Build and run: `docker compose up --build`
-- API: http://localhost:3000
+Use the shared compose file in the context repo:
+`../Context Repository/shared/docker-compose.yml`
+
+Run:
+`docker compose -f "../Context Repository/shared/docker-compose.yml" up --build`
+
+Or:
+`powershell -File run-shared.ps1 -Action compose`
+
+## Contract guard (shared)
+
+Run:
+`powershell -ExecutionPolicy Bypass -File "../Context Repository/shared/scripts/check-contract-change.ps1"`
+
+Or:
+`powershell -File run-shared.ps1 -Action contract-check`
 
 Before API changes, review:
 - `../Context Repository/standards/api-change-policy.md`
