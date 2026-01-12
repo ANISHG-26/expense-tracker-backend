@@ -53,6 +53,17 @@ Run:
 Or:
 `powershell -File run-shared.ps1 -Action contract-check`
 
+## New hire setup
+
+Clone the context repo alongside the backend repo so contracts and standards are
+available locally:
+
+- `expense-tracker-context-registry`
+- `expense-tracker-backend`
+
+Optional: open the multi-repo workspace from the context repo:
+`Context Repository/tools/mcp/expense-tracker.code-workspace`
+
 Before API changes, review:
 - `../Context Repository/standards/api-change-policy.md`
 - `../Context Repository/workflows/api-change-workflow.md`
