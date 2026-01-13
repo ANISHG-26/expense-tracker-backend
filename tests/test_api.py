@@ -85,3 +85,48 @@ def test_list_categories():
         assert len(items) >= 1
 
     os.remove(path)
+
+
+def test_download_report_pdf():
+    app, client, path = setup_app()
+    with app.app_context():
+        client.post(
+            "/expenses",
+            json={
+                "amount": 20,
+                "currency": "USD",
+                "categoryId": "cat-food",
+                "merchant": "Cafe",
+                "note": "Latte",
+                "date": "2026-01-10"
+            }
+        )
+        client.post(
+            "/expenses",
+            json={
+                "amount": 45,
+                "currency": "USD",
+                "categoryId": "cat-utilities",
+                "merchant": "Power Co",
+                "note": "Electric",
+                "date": "2026-01-15"
+            }
+        )
+        response = client.get(
+            "/reports/expenses.pdf?from=2026-01-01&to=2026-01-31&groupBy=week"
+        )
+        assert response.status_code == 200
+        assert response.mimetype == "application/pdf"
+        assert response.data.startswith(b"%PDF")
+
+    os.remove(path)
+
+
+def test_download_report_invalid_range():
+    app, client, path = setup_app()
+    with app.app_context():
+        response = client.get("/reports/expenses.pdf?from=2026-02-01&to=2026-01-01")
+        assert response.status_code == 400
+
+    os.remove(path)
+
